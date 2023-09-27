@@ -16,11 +16,14 @@
                             @for ($i = 1; $i <= 8; $i++)
                             <div class="col-lg-3 col-sm-6">
                                 <div class="single_product_item">
-                                    <img src="{{ asset('storage/imgs/product/' . $produits[$i - 1]->image) }}">
+                                    <a href="{{route('sengleproduit.index',$produits[$i - 1]->id)}} ">
+                                        <img src="{{ asset('storage/imgs/product/' . $produits[$i - 1]->image) }}">
+                                    </a>
                                     <div class="single_product_text">
                                         <h4>{{$produits[$i - 1]->titre}} </h4>
                                         <h3>$ {{$produits[$i - 1]->prix}}</h3>
-                                        <a class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                        
+                                        <a href="{{route('sengleproduit.index',$produits[$i - 1]->id)}} " class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                     </div>
                                 </div>
                             </div>

@@ -58,7 +58,8 @@
                     <div class="row align-items-center latest_product_inner">
 
                         @foreach ($produits as $produit )
-
+                        @if ($produit->categorie=="Chaise en plastique")
+                        
                         <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
@@ -69,6 +70,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                             
                         @endforeach
                         

@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategorierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProduitWCntoller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleeController;
+use App\Http\Controllers\sengleproduitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +26,14 @@ Route::get("/", [HomeController::class, "index"])->name('frontend.home');
 
 Route::get("/contact", [InfoController::class, "contact"])->name('contact');
 
+Route::get('/show/{produit}',[sengleproduitController::class,"index"])->name('sengleproduit.index');
 
-Route::get('/shop', function () {
-    return view('frontend.shop.shop');
-});
+Route::get('/shop',[CategorierController::class,"index"])->name("shop.index");
+
+Route::get('/shop/categorier/bois',[CategorierController::class,"bois"])->name("shop.bois");
+Route::get('/shop/categorier/fer',[CategorierController::class,"fer"])->name("shop.fer");
+Route::get('/shop/categorier/plastique',[CategorierController::class,"plastique"]);
+
 
 Route::get('/panier', function () {
     return view('frontend.panier.panier');
@@ -66,10 +72,10 @@ Route::middleware('auth', 'role:admin')->group(function () {
     Route::post("/backend/produit/store", [ProduitController::class, "storproduit"])->name('backend.storproduit');
 
     // email
-    Route::post("/sendmail", [ProduitController::class, "sendmail"])->name('sendmail');
-
+    
     Route::get("/boitemail", [ProduitController::class, "boitemail"])->name('backend.boitemail');
     Route::put("boitemail/{message}", [ProduitController::class, "updatmessage"])->name('backend.updatmessage');
+    // Route::post("/sendmail", [ProduitController::class, "sendmail"])->name('sendmail');
 
 
     // contact
@@ -80,6 +86,11 @@ Route::middleware('auth', 'role:admin')->group(function () {
 
     Route::put("/boitemail/{info}/info", [ProduitController::class, "updateinfo"])->name('backend.updateinfo');
 
+});
+
+Route::middleware('auth')->group(function () {
+    // send email    
+    Route::post("/sendmail", [ProduitController::class, "sendmail"])->name('sendmail');
 });
 
 

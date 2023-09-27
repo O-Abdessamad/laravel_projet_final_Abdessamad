@@ -14,7 +14,7 @@
                                             Sofa</h1>
                                         <p>Incididunt ut labore et dolore magna aliqua quis ipsum
                                             suspendisse ultrices gravida. Risus commodo viverra</p>
-                                        <a href="#" class="btn_2">buy now</a>
+                                        <a href="{{route('sengleproduit.index',$shuffledProducts[$i - 1]->id)}} " class="btn_2">buy now</a>
                                     </div>
                                 </div>
                             </div>

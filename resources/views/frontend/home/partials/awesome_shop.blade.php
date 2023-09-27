@@ -3,7 +3,9 @@
         <div class="row align-items-center justify-content-between">
             <div class="col-lg-6 col-md-6">
                 <div class="offer_img">
-                    <img src="{{ asset('storage/imgs/product/' . $produits[0]->image) }}">
+                    <a href="{{route('sengleproduit.index',$produits[0]->id)}} ">
+                        <img src="{{ asset('storage/imgs/product/' . $produits[0]->image) }}">
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

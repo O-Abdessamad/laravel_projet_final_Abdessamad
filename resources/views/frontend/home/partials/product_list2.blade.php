@@ -14,7 +14,10 @@
 
                     @if ($produit->stock<5)
                     <div class="single_product_item">
-                        <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
+
+                        <a href="{{route('sengleproduit.index',$produit->id)}} ">
+                            <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
+                        </a>
                         <div class="single_product_text">
                             <h4> {{$produit->titre}} </h4>
                             <h3>$ {{$produit->prix}} </h3>
