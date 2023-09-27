@@ -11,7 +11,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="offer_text">
                     <h2>Weekly Sale on
-                        60% Off All Products</h2>
+                        60% Off All Product</h2>
                     <div class="date_countdown">
                         <div id="timer">
                             <div id="days" class="date"></div>
@@ -42,4 +42,3 @@
         </div>
     </div>
 </section>
-<br>
