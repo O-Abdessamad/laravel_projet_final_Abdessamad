@@ -1,14 +1,9 @@
     <!-- Button trigger modal -->
   
-    @if ($produit->createur)
-    <button type="button" disabled class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalproduit{{$produit->id}}">
+    <button type="button" @if ($produit->createur) disabled  @else  @endif class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalproduit{{$produit->id}}">
         <i class="fa-solid fa-pen-to-square"></i>
     </button>
-    @else
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalproduit{{$produit->id}}">
-        <i class="fa-solid fa-pen-to-square"></i>
-    </button>
-    @endif
+   
 
 
 <!-- Modal -->

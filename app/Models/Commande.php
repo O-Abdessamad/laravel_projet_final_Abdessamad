@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Panier extends Model
+class Commande extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'id_user',
-        'id_produit',
-        'quantiter',
     ];
 
     public function user()
@@ -20,8 +17,4 @@ class Panier extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function produit()
-    {
-        return $this->belongsTo(Produit::class, 'id_produit');
-    }
 }

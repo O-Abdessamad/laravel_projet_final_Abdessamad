@@ -26,7 +26,7 @@
                     <div class="product_slider_img">
                         <div id="vertical">
                             <div data-thumb="img/product/single-product/product_1.png">
-                                <img src={{ asset('storage/imgs/product/'. $produit->image) }} class="w-100" />
+                                <img src={{ asset('storage/imgs/product/' . $produit->image) }} class="w-100" />
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,62 @@
                                 <input class="input-number" type="text" value="1" min="0" max="10">
                                 <span class="number-increment"> <i class="ti-plus"></i></span>
                             </div>
-                            <a href="#" class="btn_3">add to cart</a>
-                            <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
+                            @if (Auth::user())
+                                <div class=" d-none">
+                                    {{ $id_user = Auth::user()->id }}
+
+                                </div>
+                            @else
+                                <div class=" d-none">
+                                    {{ $id_user = 0 }}
+
+                                </div>
+                            @endif
+
+                            @if ($produit->stock > 0)
+                                <form action={{ route('addToPanier', $produit->id) }} method="POST">
+                                    @csrf
+
+                                    <input class=" d-none" type="number" name="id_user" value="{{ $id_user }}">
+
+                                    <button class=" border-0 bg-transparent" type="submit">
+                                        <a class="btn_3">add to cart</a>
+
+                                    </button>
+
+                                </form>
+                            @else
+                                <a class="btn_3"> Out of stock</a>
+                            @endif
+
+                            @if (Auth::user())
+                                <h1 class=" d-none">
+                                    {{ $id_user = Auth::user()->id }}
+
+                                    {{ $coeurr = Auth::user()->coeurs }}
+                                </h1>
+
+                                @if ($coeurr->contains('id_produit', $produit->id))
+                                    <form action="{{ route('coeur.destroyproduitcoeur', $coeurr[0]->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class=" border-0 bg-transparent" type="submit">
+                                            <i class="fa-solid fa-heart like_us" style="color: #ff0000;"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action={{ route('storecoeur', $produit->id) }} method="POST">
+                                        @csrf
+                                        <input class=" d-none" type="number" name="id_user" value="{{ $id_user }}">
+                                        <button class=" border-0 bg-transparent" type="submit">
+                                            <i class="fa-regular fa-heart like_us"></i> </button>
+                                    </form>
+                                @endif
+                            @else
+                                <i  class="fa-solid fa-heart like_us"></i>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -78,21 +132,18 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-lg-12">
                     <div class="best_product_slider owl-carousel">
-                        
-                        @foreach ($allproduits as $allproduit )
 
-                        @if ($allproduit->stock<5)
-                        <div class="single_product_item">
-                            <img src="{{ asset('storage/imgs/product/' . $allproduit->image) }}">
-                            <div class="single_product_text">
-                                <h4> {{$allproduit->titre}} </h4>
-                                <h3>$ {{$allproduit->prix}} </h3>
-                                <h3>Stock: {{$allproduit->stock}} </h3>
-                            </div>
-                        </div>
-                            
-                        @endif
-                            
+                        @foreach ($allproduits as $allproduit)
+                            @if ($allproduit->stock < 5)
+                                <div class="single_product_item">
+                                    <img src="{{ asset('storage/imgs/product/' . $allproduit->image) }}">
+                                    <div class="single_product_text">
+                                        <h4> {{ $allproduit->titre }} </h4>
+                                        <h3>$ {{ $allproduit->prix }} </h3>
+                                        <h3>Stock: {{ $allproduit->stock }} </h3>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>

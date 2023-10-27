@@ -8,10 +8,7 @@
             {{ $createur = 0 }}
         </div>
     @endif
-
-
-
-    @include('backend.webmaster.partials.create')
+@include('backend.webmaster.partials.create')
 
 
     <table class="table container mt-10 ">
@@ -57,27 +54,18 @@
                         <form action="{{ route('backendW.destroyproduit', $produit->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-
-                            @if ($produit->createur)
-                            <button disabled type="submit" class=" btn btn-danger text-white "
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer?')"><i
-                                class="fa-solid fa-trash-can"></i></button>
-                            @else
-                            <button type="submit" class=" btn btn-danger text-white "
-                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer?')"><i
-                                class="fa-solid fa-trash-can"></i></button>
-                            @endif
-
-                            
+                            <button type="submit" @if ($produit->createur) disabled  @else  @endif  class=" btn btn-danger text-white "
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer?')"><i
+                                    class="fa-solid fa-trash-can"></i></button>
                         </form>
                     </td>
 
                 </tr>
             @endforeach
 
-
-
         </tbody>
 
     </table>
+
+   
 </x-app-layout>

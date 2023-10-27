@@ -45,8 +45,19 @@ class User extends Authenticatable
     ];
 
     // Définir les relations ici (par exemple, la relation avec le panier
-    public function panier()
+    
+    public function paniers()
     {
-        return $this->hasOne(Panier::class);
+        return $this->hasMany(Panier::class, 'id_user', 'id');
+    }
+
+    public function coeurs()
+    {
+        return $this->hasMany(Coeur::class, 'id_user', 'id');
+    }
+
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class, 'id_user', 'id');
     }
 }

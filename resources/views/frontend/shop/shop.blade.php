@@ -1,8 +1,5 @@
 @extends('layouts.frontend')
 @section('content')
-    
-
-
     <!--================Home Banner Area =================-->
     <!-- breadcrumb start-->
     <section class="breadcrumb breadcrumb_bg">
@@ -20,8 +17,6 @@
         </div>
     </section>
     <!-- breadcrumb start-->
-
-
     <!--================Category Product Area =================-->
     <section class="cat_product_area section_padding">
         <div class="container">
@@ -51,28 +46,103 @@
 
                                 </ul>
                             </div>
-                        </aside>                        
+                        </aside>
                     </div>
                 </div>
+
+
+                @if (Auth::user())
+                    <h1 class=" d-none">
+                        {{ $id_user = Auth::user()->id }}
+
+                        {{
+                            $coeurr=Auth::user()->coeurs;
+                        }}
+                    </h1>
+                @else
+                    <h1 class=" d-none">
+                        {{ $id_user = 0 }}
+                        
+
+                    </h1>
+                   
+                @endif
+
+
+               
                 <div class="col-lg-9">
                     <div class="row align-items-center latest_product_inner">
 
-                        @foreach ($produits as $produit )
+                        @foreach ($produits as $produit)
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="single_product_item">
+                                    <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
+                                    <div class="single_product_text">
+                                        <h4> {{ $produit->titre }} </h4>
 
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
-                                <div class="single_product_text">
-                                    <h4>{{ $produit->name}} </h4>
-                                    <h3>$ {{ $produit->prix}}</h3>
-                                    <a href="{{route('sengleproduit.index',$produit->id)}} " class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                        <div class=" d-flex justify-content-between">
+                                            <h3>
+                                                $ {{ $produit->prix }}
+                                            </h3>
+                                            <h4>
+                                                
+                                                        @if (Auth::user())
+                                                        <h1 class=" d-none">
+                                                            {{ $id_user = Auth::user()->id }}
+                                    
+                                                            {{
+                                                                $coeurr=Auth::user()->coeurs;
+                                                            }}
+                                                        </h1>
+
+                                                            @if ( $coeurr->contains('id_produit', $produit->id) ) 
+                                                            <form action="{{ route('coeur.destroyproduitcoeur', $coeurr[0]->id ) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class=" border-0 bg-transparent" type="submit">
+                                                                    <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+                                                                    </button>
+                                                            </form>                                                           
+                                                            
+                                                            @else
+                                                                <form action={{ route('storecoeur', $produit->id) }} method="POST">
+                                                                    @csrf
+                                                                    <input class=" d-none" type="number" name="id_user" value="{{ $id_user }}">
+                                                                    <button class=" border-0 bg-transparent" type="submit">
+                                                                        <i class="fa-regular fa-heart"></i>                                                                    </button>
+                                                                </form>
+                                                            @endif
+                                                        @else
+                                                            <i class="fa-solid fa-heart" ></i>
+                                                        @endif                                                            
+
+
+                                                    
+                                            </h4>
+                                        </div>
+
+                                        <div class=" d-flex justify-content-between">
+
+                                            <form action={{ route('addToPanier', $produit->id, 1) }} method="POST">
+                                                @csrf
+
+                                                <input class=" d-none" type="number" name="id_user"
+                                                    value="{{ $id_user }}">
+
+                                                <button class=" border-0 bg-transparent" type="submit">
+                                                    <a class="add_cart">+
+                                                        add to cart </a>
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                            
                         @endforeach
-                        
-                        
+
+
                     </div>
                 </div>
             </div>
@@ -93,21 +163,18 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-lg-12">
                     <div class="best_product_slider owl-carousel">
-                        
-                        @foreach ($produits as $produit )
 
-                        @if ($produit->stock<5)
-                        <div class="single_product_item">
-                            <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
-                            <div class="single_product_text">
-                                <h4> {{$produit->titre}} </h4>
-                                <h3>$ {{$produit->prix}} </h3>
-                                <h3>Stock: {{$produit->stock}} </h3>
-                            </div>
-                        </div>
-                            
-                        @endif
-                            
+                        @foreach ($produits as $produit)
+                            @if ($produit->stock < 5)
+                                <div class="single_product_item">
+                                    <img src="{{ asset('storage/imgs/product/' . $produit->image) }}">
+                                    <div class="single_product_text">
+                                        <h4> {{ $produit->titre }} </h4>
+                                        <h3>$ {{ $produit->prix }} </h3>
+                                        <h3>Stock: {{ $produit->stock }} </h3>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -115,7 +182,4 @@
         </div>
     </section>
     <!-- product_list part end-->
-
-
-
 @endsection

@@ -17,6 +17,7 @@
     
                 @foreach ($allusers as $alluser )
                 @if (($alluser->name)=="admin")
+
                     
                 @else
                 <tr>

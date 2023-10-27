@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\CategorierController;
+use App\Http\Controllers\CoeurController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProduitWCntoller;
 use App\Http\Controllers\ProfileController;
@@ -35,12 +38,22 @@ Route::get('/shop/categorier/fer',[CategorierController::class,"fer"])->name("sh
 Route::get('/shop/categorier/plastique',[CategorierController::class,"plastique"]);
 
 
-Route::get('/panier', function () {
-    return view('frontend.panier.panier');
-});
 
-Route::get('/coeur', function () {
-    return view('frontend.coeur.coeur');
+
+
+Route::get('/coeur',[CoeurController::class,"index"])->name("coeur.index");
+
+Route::middleware('auth')->group(function () {
+    // coeur
+    Route::post("/storecoeur/{produit}", [CoeurController::class, "storecoeur"])->name('storecoeur'); 
+    Route::delete("/coeur/{coeur}/delete", [CoeurController::class, "destroyproduitcoeur"])->name('coeur.destroyproduitcoeur');
+    // panier
+    Route::get('/panier',[PanierController::class,"index"])->name("panier.index");
+    Route::post("/addToPanier/{produit}", [PanierController::class, "addToPanier"])->name('addToPanier'); 
+    // commande
+    Route::post("/storecommande", [CommandeController::class, "storecommande"])->name('storecommande'); 
+
+
 });
 
 Route::get('/allproduitWM', function () {
@@ -51,7 +64,7 @@ Route::get('/allproduitWM', function () {
 Route::middleware('auth', 'role:webmaster')->group(function () {
     // page webmaster Produit
     Route::get("/allproduitWM", [ProduitWCntoller::class, "index"])->name('backend.allproduitWM');
-    Route::delete("/backend/produit/{produit}/webmaster", [ProduitWCntoller::class, "destroyproduit"])->name('backendW.destroyproduit');
+    Route::delete("/backend/produit/{produit}/webmaster/delete", [ProduitWCntoller::class, "destroyproduit"])->name('backendW.destroyproduit');
     Route::put("/backend/produit/{produit}/webmaster", [ProduitWCntoller::class, "updateproduit"])->name('backendW.updateproduit');
 
     Route::post("/backend/produit/store/webmaster", [ProduitWCntoller::class, "storproduit"])->name('backendW.storproduit');
@@ -85,6 +98,10 @@ Route::middleware('auth', 'role:admin')->group(function () {
     Route::get("/info", [InfoController::class, "index"])->name('backend.info');
 
     Route::put("/boitemail/{info}/info", [ProduitController::class, "updateinfo"])->name('backend.updateinfo');
+
+    // commande
+    Route::get("/commande", [CommandeController::class, "index"])->name('backend.commande');
+
 
 });
 

@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('paniers', function (Blueprint $table) {
             $table->id();
-            $table->integer("id_user");
-            $table->integer("id_produit");
-
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('id_produit');
+            $table->foreign('id_produit')->references('id')->on('produits')->cascadeOnDelete();
+            $table->integer("quantiter");
             $table->timestamps();
         });
     }
